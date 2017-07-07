@@ -1,0 +1,56 @@
+---
+title: 'Peer-graded Assignment: Course Project: Shiny Application and Reproducible
+  Pitch'
+author: "Ridzuan Mohamad"
+date: "7/7/2017"
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Overview
+
+This is a Project for week 4 under Coursera Data Science Specialization Programme.
+It has two parts which covered:- 
+
+1. Shiny for web application.<br>https://ridzuanmo.shinyapps.io/mpg_consumption_analysis/
+   
+2. Slidify for pitch presentation about the application.<br>http://rpubs.com/ridzuanmo/mpg_analysis
+
+## Shiny Application
+
+The application allow users to visualize the relationship between selected variable, mpg and automobiles. The scatter plot show which automobiles and variable consume gas effectively.
+
+- User may select variables such as Weight, Horsepower, Cylinder and Gear.
+- User may resize data sample by define the range for QSec (1/4 mile time)
+
+## Dataset
+
+The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+
+However, we only interested at 5 variable as shown in the table below and row name's represent automobiles models.
+
+```{r, echo = FALSE}
+summary(mtcars[,c("mpg", "wt", "gear", "cyl", "qsec")])
+```
+
+## Plot
+
+The relationship between Weigth, MPG and Automobiles
+
+```{r, warning=FALSE, echo=FALSE}
+library(ggplot2)
+
+mtcars$model = sub(" .*", "", rownames(mtcars))
+mtcars$model <- factor(mtcars$model)
+
+ggplot(mtcars, aes_string("wt", "mpg")) +
+          geom_point(aes(colour = model), size = 4) +
+          guides(color=guide_legend(title="Automobiles")) +
+          xlab("Weight (1000 lbs)") +
+          ylab("Miles/(US) gallon") + 
+          ggtitle("MPG vs Weight (1000 lbs) vs Automobiles")
+```
+
